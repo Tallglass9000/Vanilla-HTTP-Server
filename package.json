@@ -12,5 +12,16 @@
     "chai": "^3.2.0",
     "chai-http": "^1.0.0",
     "mocha": "^2.3.2"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tallglass9000/Vanilla-HTTP-Server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Tallglass9000/Vanilla-HTTP-Server/issues"
+  },
+  "homepage": "https://github.com/Tallglass9000/Vanilla-HTTP-Server#readme"
 }
