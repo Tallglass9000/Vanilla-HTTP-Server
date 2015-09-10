@@ -1,15 +1,15 @@
 'use strict';
 
 var http = require('http');
+
 var server = http.createServer(function(req, res) {
-  if (req.url === '/greet/name') {
-    req.on('data', function (data) {
-      console.log("Hello " + data);
-    });
+  if (req.url.slice(0, 7) === "/greet/") {
+    var url = req.url;
+    var name = url.slice(7, url.length);
     res.writeHead(200, {
       'Content-Type': 'text/plain'
     });
-    res.write("Hi there from the server!");
+    res.write("Hello " + name);
     return res.end();
   }
 
@@ -25,21 +25,28 @@ var server = http.createServer(function(req, res) {
   }
   
   if (req.method === 'POST') {
+    //Some of this code comes from mscdex at stackoverflow.com/questions/24356481/is-there-a-way-to-synchronously-read-the-contents-of-http-request-body-in-node-j
+    var buffer = "";
     req.on('data', function (data) {
-      var parsed = JSON.parse(data.toString());
-      console.log(parsed.name);
+      buffer += data;
+    }).on('end', function() {
+      var result;
+      result = JSON.parse(buffer.toString());
+      console.log(result.name);
+      res.writeHead(200, {
+        'Content-Type': 'text/plain'
+      });
+      res.write("Hello " + result.name);
+      return res.end();
     });
-    res.writeHead(200, {
-      'Content-Type': 'application/json'
-    });
-    res.write('{"msg": "success!"}');
-    return res.end();
+    return;
   }
 
   res.writeHead(404, {
     'Content-Type': 'text/plain'
   });
   res.write('page not found');
+  console.log('page not found');
   return res.end();
 });
 
